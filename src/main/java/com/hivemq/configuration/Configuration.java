@@ -1,4 +1,4 @@
-package com.siemens.railfusion.hivemq.configuration;
+package com.hivemq.configuration;
 
 import com.google.inject.Inject;
 

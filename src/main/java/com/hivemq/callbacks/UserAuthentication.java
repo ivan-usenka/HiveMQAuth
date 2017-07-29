@@ -1,4 +1,4 @@
-package com.siemens.railfusion.hivemq.callbacks;
+package com.hivemq.callbacks;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -55,7 +55,8 @@ public class UserAuthentication implements OnAuthenticationCallback {
     @Cached(timeToLive = 10, timeUnit = TimeUnit.MINUTES)
     private String retrievePasswordFromDatabase(String username) {
 
-        String password = "";   //Call to any database to ask for the password of the user
+        //TODO Call to any database to ask for the password of the user
+        String password = "";
 
         return password;
     }

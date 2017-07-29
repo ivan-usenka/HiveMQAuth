@@ -1,4 +1,4 @@
-package com.siemens.railfusion.hivemq.plugin;
+package com.hivemq.plugin;
 
 import com.hivemq.spi.HiveMQPluginModule;
 import com.hivemq.spi.PluginEntryPoint;

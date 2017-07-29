@@ -1,9 +1,9 @@
-package com.siemens.railfusion.hivemq.plugin;
+package com.hivemq.plugin;
 
 import com.hivemq.spi.PluginEntryPoint;
 import com.hivemq.spi.callback.registry.CallbackRegistry;
-import com.siemens.railfusion.hivemq.callbacks.TopicAuthorization;
-import com.siemens.railfusion.hivemq.callbacks.UserAuthentication;
+import com.hivemq.callbacks.TopicAuthorization;
+import com.hivemq.callbacks.UserAuthentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

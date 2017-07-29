@@ -1,4 +1,4 @@
-package com.siemens.railfusion.hivemq.callbacks;
+package com.hivemq.callbacks;
 
 import com.hivemq.spi.aop.cache.Cached;
 import com.hivemq.spi.callback.CallbackPriority;
@@ -21,7 +21,7 @@ public class TopicAuthorization implements OnAuthorizationCallback {
     public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData) {
         List<MqttTopicPermission> mqttTopicPermissions = new ArrayList<>();
 
-        //Just for example. This list must be built based on knowledge
+        //TODO Just for example. This data can be gathered from database or calculated manually
         mqttTopicPermissions.add(new MqttTopicPermission(clientData.getClientId() + "/#", MqttTopicPermission.TYPE.ALLOW));
 
         return mqttTopicPermissions;
