@@ -11,7 +11,7 @@ import com.hivemq.spi.plugin.meta.Information;
         name = "Authorization and authentication plugin",
         author = "Ivan Usenka",
         version = "1.0",
-        description = "A plugin created to support authorization and authentication checks on each message received"
+        description = "A plugin created to support authorization checks on each publish/subscribe process"
 )
 public class AuthPluginModule extends HiveMQPluginModule {
 

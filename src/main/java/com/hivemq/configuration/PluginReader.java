@@ -19,7 +19,7 @@ public class PluginReader {
 
     private static final Logger log = LoggerFactory.getLogger(PluginReader.class);
 
-    final Properties properties = new Properties();
+    private final Properties properties = new Properties();
     private final SystemInformation systemInformation;
 
     @Inject
@@ -31,7 +31,7 @@ public class PluginReader {
     public void postConstruct() {
         final File pluginFolder = systemInformation.getPluginFolder();
 
-        final File pluginFile = new File(pluginFolder, "myPlugin1.properties");
+        final File pluginFile = new File(pluginFolder, "authPlugin.properties");
 
         if (!pluginFile.canRead()) {
             log.error("Could not read the properties file {}", pluginFile.getAbsolutePath());
@@ -47,7 +47,6 @@ public class PluginReader {
 
         } catch (IOException e) {
             log.error("An error occurred while reading the properties file {}", pluginFile.getAbsolutePath(), e);
-            return;
         }
     }
 

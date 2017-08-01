@@ -1,9 +1,8 @@
 package com.hivemq.plugin;
 
+import com.hivemq.callbacks.TopicAuthorization;
 import com.hivemq.spi.PluginEntryPoint;
 import com.hivemq.spi.callback.registry.CallbackRegistry;
-import com.hivemq.callbacks.TopicAuthorization;
-import com.hivemq.callbacks.UserAuthentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,18 +15,16 @@ import javax.inject.Inject;
 public class AuthPlugin extends PluginEntryPoint {
 
     private final TopicAuthorization authorizationCallback;
-    private final UserAuthentication authenticationCallback;
 
     Logger log = LoggerFactory.getLogger(AuthPlugin.class);
 
     @Inject
-    public AuthPlugin(TopicAuthorization authorizationCallback, UserAuthentication authenticationCallback) {
+    public AuthPlugin(TopicAuthorization authorizationCallback) {
         this.authorizationCallback = authorizationCallback;
-        this.authenticationCallback = authenticationCallback;
     }
 
     /**
-     * This method is executed after the instanciation of the whole class. It is used to initialize
+     * This method is executed after the instantiation of the whole class. It is used to initialize
      * the implemented callbacks and make them known to the HiveMQ core.
      */
     @PostConstruct
@@ -35,6 +32,5 @@ public class AuthPlugin extends PluginEntryPoint {
         CallbackRegistry callbackRegistry = getCallbackRegistry();
 
         callbackRegistry.addCallback(authorizationCallback);
-        callbackRegistry.addCallback(authenticationCallback);
     }
 }
