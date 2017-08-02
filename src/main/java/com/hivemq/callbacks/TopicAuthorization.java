@@ -27,7 +27,7 @@ public class TopicAuthorization implements OnAuthorizationCallback {
     }
 
     @Override
-    @Cached(timeToLive = 10, timeUnit = TimeUnit.MINUTES)
+    @Cached(timeToLive = 24, timeUnit = TimeUnit.HOURS)
     public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData) {
         List<MqttTopicPermission> mqttTopicPermissions = new ArrayList<>();
 
