@@ -1,12 +1,10 @@
 package com.hivemq.callbacks;
 
-import com.google.inject.Inject;
-import com.hivemq.services.ClientValidationService;
+import com.hivemq.services.validators.ClientDataValidator;
 import com.hivemq.spi.aop.cache.Cached;
 import com.hivemq.spi.callback.CallbackPriority;
 import com.hivemq.spi.callback.security.OnAuthorizationCallback;
 import com.hivemq.spi.callback.security.authorization.AuthorizationBehaviour;
-import com.hivemq.spi.security.ClientCredentialsData;
 import com.hivemq.spi.security.ClientData;
 import com.hivemq.spi.topic.MqttTopicPermission;
 
@@ -19,16 +17,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class TopicAuthorization implements OnAuthorizationCallback {
 
-    private final ClientValidationService clientValidationService;
-
-    @Inject
-    public TopicAuthorization(ClientValidationService clientValidationService) {
-        this.clientValidationService = clientValidationService;
-    }
-
     @Override
     @Cached(timeToLive = 24, timeUnit = TimeUnit.HOURS)
     public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData) {
+        ClientDataValidator clientDataValidator = new ClientDataValidator(clientData);
         List<MqttTopicPermission> mqttTopicPermissions = new ArrayList<>();
 
         //TODO Clarify info about actual suffix
@@ -41,10 +33,10 @@ public class TopicAuthorization implements OnAuthorizationCallback {
         //2.  HiveMQ Client Authentication Plugin
         //We desire to support username/password authentication.
         //The user name will be the clientID however the password will be an alphanumeric string.  Similar to a API key."
-        if (clientValidationService.isIpInRange(clientData) &&
-                clientValidationService.isUserNamePresented(clientData) &&
+        if (clientDataValidator.isIpInRange() &&
+                clientDataValidator.isUserNamePresented() &&
                 //According to HiveMQ support response we can just cast to ClientCredentialsData to be able to receive password
-                clientValidationService.isPasswordValid((ClientCredentialsData) clientData)) {
+                clientDataValidator.isPasswordValid()) {
 
             //Jason's quote: " Devices that successfully authenticate (authorize)
             //will be allowed to publish and subscribe to topics that begins with their RFID.
