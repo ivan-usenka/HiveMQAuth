@@ -2,7 +2,9 @@ package com.hivemq.services.impl;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.inject.Inject;
 import com.hivemq.services.ClientValidationService;
+import com.hivemq.services.dao.HiveMQConnectorsDBRESTClient;
 import com.hivemq.spi.aop.cache.Cached;
 import com.hivemq.spi.security.ClientCredentialsData;
 import com.hivemq.spi.security.ClientData;
@@ -13,6 +15,13 @@ import java.util.concurrent.TimeUnit;
  * Created by Ivan Usenka on 01-Aug-17.
  */
 class ClientValidationServiceImpl implements ClientValidationService {
+
+    HiveMQConnectorsDBRESTClient dbrestClient;
+
+    @Inject
+    public ClientValidationServiceImpl(HiveMQConnectorsDBRESTClient dbrestClient) {
+        this.dbrestClient = dbrestClient;
+    }
 
     @Override
     public boolean isIpInRange(ClientData clientData) {
