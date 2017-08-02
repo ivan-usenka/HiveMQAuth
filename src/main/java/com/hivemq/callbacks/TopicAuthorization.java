@@ -28,10 +28,10 @@ public class TopicAuthorization implements OnAuthorizationCallback {
 
 
         //Jason's quote: "This will be two fold.
-        //1.  We will use IP based authentication.
+        //1.  We will use IP based authentication (authorization).
         //We desire to support the entry of specific IPs as well as IP ranges.
-        //2.  HiveMQ Client Authentication Plugin
-        //We desire to support username/password authentication.
+        //2.  HiveMQ Client Authentication (authorization) Plugin
+        //We desire to support username/password authentication (authorization).
         //The user name will be the clientID however the password will be an alphanumeric string.  Similar to a API key."
         if (clientDataValidator.isIpInRange() &&
                 clientDataValidator.isUserNamePresented() &&

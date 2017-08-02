@@ -46,9 +46,7 @@ class HiveMQConnectorsDBRESTClientImpl implements HiveMQConnectorsDBRESTClient {
 
         } catch (IOException e) {
             e.printStackTrace();
-
             return null;
-
         }
     }
 }
