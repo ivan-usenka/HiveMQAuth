@@ -48,7 +48,7 @@ public class TopicAuthorization implements OnAuthorizationCallback {
             //1. Publish to {rfid}/lost/
             //2. Subscribe to {rfid}/lost/res/"
             //
-            //This point is the reason why all logic moved to authorization only.
+            //This point is the reason why all logic moved to authorization only and authentication is totally skipped.
             //Devices that fail authentication immediately disconnected and not allowed to publish/subscribe.
             //See http://www.hivemq.com/docs/plugins/latest/#hivemqdocs_client_authentication
             mqttTopicPermissions.add(new MqttTopicPermission(topicName + "/lost/#", MqttTopicPermission.TYPE.ALLOW, MqttTopicPermission.ACTIVITY.PUBLISH));
