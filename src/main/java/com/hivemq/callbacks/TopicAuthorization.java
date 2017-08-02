@@ -46,10 +46,17 @@ public class TopicAuthorization implements OnAuthorizationCallback {
                 //According to HiveMQ support response we can just cast to ClientCredentialsData to be able to receive password
                 clientValidationService.isPasswordValid((ClientCredentialsData) clientData)) {
 
-            //Jason's quote: " Devices that successfully authenticate
+            //Jason's quote: " Devices that successfully authenticate (authorize)
             //will be allowed to publish and subscribe to topics that begins with their RFID.
             //(This is the suffix of their clientID)"
             mqttTopicPermissions.add(new MqttTopicPermission(topicName + "/#", MqttTopicPermission.TYPE.ALLOW));
+        } else {
+
+            //Jason's quote: "Devices that fail authentication (authorization) will only be allowed to
+            //1. Publish to {rfid}/lost/
+            //2. Subscribe to {rfid}/lost/res/"
+            mqttTopicPermissions.add(new MqttTopicPermission(topicName + "/lost/#", MqttTopicPermission.TYPE.ALLOW, MqttTopicPermission.ACTIVITY.PUBLISH));
+            mqttTopicPermissions.add(new MqttTopicPermission(topicName + "/lost/res/#", MqttTopicPermission.TYPE.ALLOW, MqttTopicPermission.ACTIVITY.SUBSCRIBE));
         }
 
         return mqttTopicPermissions;
