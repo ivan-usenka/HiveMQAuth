@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ClientDataValidator {
 
+    //TODO refactor this to avoid multiple file loading when DB microservice is ready
+
     private final ClientData clientData;
 
     public ClientDataValidator(ClientData clientData) {
