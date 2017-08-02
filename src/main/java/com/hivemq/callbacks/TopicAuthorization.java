@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class TopicAuthorization implements OnAuthorizationCallback {
 
     @Override
+    //TODO Approve caching time
     @Cached(timeToLive = 24, timeUnit = TimeUnit.HOURS)
     public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData) {
         ClientDataValidator clientDataValidator = new ClientDataValidator(clientData);
