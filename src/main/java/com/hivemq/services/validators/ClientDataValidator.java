@@ -2,6 +2,7 @@ package com.hivemq.services.validators;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.hivemq.domain.HiveMQClientsData;
 import com.hivemq.spi.aop.cache.Cached;
 import com.hivemq.spi.security.ClientCredentialsData;
 import com.hivemq.spi.security.ClientData;
@@ -17,7 +18,7 @@ public class ClientDataValidator {
 
     private final ClientData clientData;
 
-    public ClientDataValidator(ClientData clientData) {
+    public ClientDataValidator(ClientData clientData, HiveMQClientsData mqClientsData) {
         this.clientData = clientData;
     }
 
@@ -34,19 +35,10 @@ public class ClientDataValidator {
         Optional<String> clientPassword = ((ClientCredentialsData) clientData).getPassword();
 
         if (clientPassword.isPresent()) {
-            Optional<String> storedPassword = Optional.fromNullable(retrievePasswordFromDatabase(clientData.getUsername().get()));
+            Optional<String> storedPassword = Optional.fromNullable(""/*mqClientsData.getPassword()*/);
             return storedPassword.isPresent() && storedPassword.get().equals(clientPassword.get());
         } else {
             return false;
         }
-    }
-
-    @Cached(timeToLive = 10, timeUnit = TimeUnit.MINUTES)
-    private String retrievePasswordFromDatabase(String username) {
-
-        //TODO Call to any database to ask for the password of the user
-        String password = "";
-
-        return password;
     }
 }

@@ -1,5 +1,7 @@
 package com.hivemq.callbacks;
 
+import com.google.inject.Inject;
+import com.hivemq.services.dao.HiveMQConnectorsDBRESTClient;
 import com.hivemq.services.validators.ClientDataValidator;
 import com.hivemq.spi.aop.cache.Cached;
 import com.hivemq.spi.callback.CallbackPriority;
@@ -17,11 +19,18 @@ import java.util.concurrent.TimeUnit;
  */
 public class TopicAuthorization implements OnAuthorizationCallback {
 
+    private HiveMQConnectorsDBRESTClient dbrestClient;
+
+    @Inject
+    public TopicAuthorization(HiveMQConnectorsDBRESTClient dbrestClient) {
+        this.dbrestClient = dbrestClient;
+    }
+
     @Override
     //TODO Approve caching time
     @Cached(timeToLive = 24, timeUnit = TimeUnit.HOURS)
     public List<MqttTopicPermission> getPermissionsForClient(ClientData clientData) {
-        ClientDataValidator clientDataValidator = new ClientDataValidator(clientData);
+        ClientDataValidator clientDataValidator = new ClientDataValidator(clientData, dbrestClient.getClientsData());
         List<MqttTopicPermission> mqttTopicPermissions = new ArrayList<>();
 
         //TODO Clarify info about actual suffix
