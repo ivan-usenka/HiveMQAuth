@@ -1,52 +1,42 @@
 package com.hivemq.services.dao.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hivemq.domain.HiveMQClientsData;
 import com.hivemq.services.dao.HiveMQConnectorsDBRESTClient;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by Ivan Usenka on 02-Aug-17.
  */
 class HiveMQConnectorsDBRESTClientImpl implements HiveMQConnectorsDBRESTClient {
 
+    private HttpClient httpClient;
+
+    public HiveMQConnectorsDBRESTClientImpl() {
+        this.httpClient = HttpClients.createDefault();
+    }
+
     @Override
-    public HiveMQClientsData getClientsData() {
+    public String executePost(String url, Object entity) {
+        String response = null;
         try {
-
-            //TODO Enter valid url after DB microservice implemented
-            URL url = new URL("");
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-            String output;
-            StringBuilder builder = new StringBuilder();
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                builder.append(output);
-            }
-
-            conn.disconnect();
-
-            return new ObjectMapper().readValue(builder.toString(), HiveMQClientsData.class);
-
+            response = Request
+                    .Post(url)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .bodyForm()
+                    .connectTimeout(1000)
+                    .socketTimeout(1000).execute().handleResponse(new BasicResponseHandler());
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return response;
+    }
+
+    @Override
+    public String executeGet(String url) {
+        return null;
     }
 }

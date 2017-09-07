@@ -16,11 +16,11 @@ public class Configuration {
         properties = pluginReader.getProperties();
     }
 
-    public String getMyProperty() {
+    public Boolean isExternalInstance() {
         if (properties == null) {
             return null;
         }
 
-        return properties.getProperty("myProperty");
+        return Boolean.valueOf(properties.getProperty("isExternal"));
     }
 }
